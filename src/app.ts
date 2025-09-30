@@ -3,18 +3,14 @@ import { env } from "./config/env";
 import cors from "cors";
 import bodyParser from "body-parser";
 import docs from "./docs/route";
+import { registerRoutes } from "./config/routes";
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res.status(200).json({
-    message: "Server is running",
-    data: null,
-  });
-});
+registerRoutes(app);
 
 docs(app);
 
