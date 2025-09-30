@@ -4,6 +4,9 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import docs from "./docs/route";
 import { registerRoutes } from "./config/routes";
+import { mongoDbConnect } from "./utils/mongo_db";
+
+mongoDbConnect();
 
 const app = express();
 
