@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authController } from "./authentication.controller";
-// import { authMiddleware } from "../../middleware/auth";
+import authMiddleware from "../../middlewares/auth.middleware";
 // import { aclMiddleware } from "../../middleware/acl";
 import { ROLES } from "../../constants/roles";
 
@@ -32,17 +32,17 @@ auth.post(
     }
     */
 );
-//   auth.get(
-//     "/me",
-//     authMiddleware,
-//     authController.me
-//     /*
-//     #swagger.tags = ['Auth']
-//     #swagger.security = [{
-//       "bearerAuth": {}
-//     }]
-//     */
-//   );
+auth.get(
+  "/me",
+  authMiddleware,
+  (req, res) => authController.me(req, res)
+  /*
+    #swagger.tags = ['Auth']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+    */
+);
 auth.post(
   "/activation",
   (req, res) => authController.activation(req, res)
