@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { authController } from "./authentication.controller";
 import authMiddleware from "../../middlewares/auth.middleware";
-// import { aclMiddleware } from "../../middleware/acl";
+import aclMiddleware from "../../middlewares/acl.middleware";
 import { ROLES } from "../../constants/roles";
+import { Request, Response } from "express";
 
 const auth = Router();
 
@@ -57,39 +58,39 @@ auth.post(
     */
 );
 
-//   auth.put(
-//     "/update-profile",
-//     [authMiddleware, aclMiddleware([ROLES.MEMBER])],
-//     authController.updateProfile
-//     /*
-//     #swagger.tags = ['Auth']
-//     #swagger.security = [{
-//       "bearerAuth": {}
-//     }]
-//     #swagger.requestBody = {
-//       required: true,
-//       schema: {
-//         $ref: "#/components/schemas/UpdateProfileRequest"
-//       }
-//     }
-//     */
-//   );
-//   auth.put(
-//     "/update-password",
-//     [authMiddleware, aclMiddleware([ROLES.MEMBER])],
-//     authController.updatePassword
-//     /*
-//     #swagger.tags = ['Auth']
-//     #swagger.security = [{
-//       "bearerAuth": {}
-//     }]
-//     #swagger.requestBody = {
-//       required: true,
-//       schema: {
-//         $ref: "#/components/schemas/UpdatePasswordRequest"
-//       }
-//     }
-//     */
-//   );
+auth.put(
+  "/update-profile",
+  [authMiddleware, aclMiddleware([ROLES.MEMBER])],
+  (req: Request, res: Response) => authController.updateProfile(req, res)
+  /*
+    #swagger.tags = ['Auth']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: "#/components/schemas/UpdateProfileRequest"
+      }
+    }
+    */
+);
+auth.put(
+  "/update-password",
+  [authMiddleware, aclMiddleware([ROLES.MEMBER])],
+  (req: Request, res: Response) => authController.updatePassword(req, res)
+  /*
+    #swagger.tags = ['Auth']
+    #swagger.security = [{
+      "bearerAuth": {}
+    }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: "#/components/schemas/UpdatePasswordRequest"
+      }
+    }
+    */
+);
 
 export default auth;
