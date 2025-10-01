@@ -1,10 +1,11 @@
 import { UserModel } from "../../models/user.model";
 import { hashPwd } from "../../utils/hash_pwd";
 import { generateToken } from "../../utils/jwt";
+import { Types } from "mongoose";
 
 export class AuthService {
   async updateProfile(
-    userId: string,
+    userId: Types.ObjectId,
     fullName: string,
     profilePicture: string
   ) {
@@ -16,7 +17,7 @@ export class AuthService {
   }
 
   async updatePassword(
-    userId: string,
+    userId: Types.ObjectId,
     oldPassword: string,
     newPassword: string
   ) {
@@ -51,7 +52,7 @@ export class AuthService {
     return generateToken({ id: user._id, role: user.role });
   }
 
-  async getProfile(userId: string) {
+  async getProfile(userId: Types.ObjectId) {
     return UserModel.findById(userId);
   }
 

@@ -8,10 +8,12 @@ export class AuthController {
 
   async updateProfile(req: AuthRequest, res: Response) {
     try {
+      const { fullName, profilePicture } = req.body;
+
       const result = await this.authService.updateProfile(
-        req.user!.id!.toString(),
-        req.body.fullName,
-        req.body.profilePicture
+        req.user!.id!,
+        fullName,
+        profilePicture
       );
       if (!result) return responseUtils.sendNotFound(res, "user not found");
       responseUtils.sendSuccess(res, result, "profile updated");
@@ -22,10 +24,12 @@ export class AuthController {
 
   async updatePassword(req: AuthRequest, res: Response) {
     try {
+      const { oldPassword, password } = req.body;
+
       const result = await this.authService.updatePassword(
-        req.user!.id!.toString(),
-        req.body.oldPassword,
-        req.body.password
+        req.user!.id!,
+        oldPassword,
+        password
       );
       if (!result)
         return responseUtils.sendNotFound(res, "invalid old password");
@@ -53,10 +57,9 @@ export class AuthController {
 
   async login(req: Request, res: Response) {
     try {
-      const token = await this.authService.login(
-        req.body.identifier,
-        req.body.password
-      );
+      const { identifier, password } = req.body;
+
+      const token = await this.authService.login(identifier, password);
       if (!token)
         return responseUtils.sendUnauthorized(res, "invalid credentials");
       responseUtils.sendSuccess(res, token, "login success");
@@ -67,9 +70,7 @@ export class AuthController {
 
   async me(req: AuthRequest, res: Response) {
     try {
-      const result = await this.authService.getProfile(
-        req.user!.id!.toString()
-      );
+      const result = await this.authService.getProfile(req.user!.id!);
       responseUtils.sendSuccess(res, result, "success get user profile");
     } catch (err) {
       responseUtils.sendError(res, err, "failed get user profile");
