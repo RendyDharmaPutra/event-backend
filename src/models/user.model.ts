@@ -6,7 +6,7 @@ import { renderMailTemplate, sendMail } from "../utils/mail/mail";
 
 export const USER_MODEL_NAME = "User";
 
-export interface IUser {
+export interface UserType {
   fullName: string;
   username: string;
   email: string;
@@ -18,7 +18,7 @@ export interface IUser {
   createdAt?: string;
 }
 
-const UserSchema = new Schema<IUser>(
+const UserSchema = new Schema<UserType>(
   {
     fullName: { type: String, required: true },
     username: { type: String, required: true, unique: true },
