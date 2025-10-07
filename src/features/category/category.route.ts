@@ -27,7 +27,7 @@ category.get(
 category.post(
   "/",
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
-  categoryController.create
+  (req: AuthRequest, res: Response) => categoryController.create(req, res)
   /*
     #swagger.tags = ['Category']
     #swagger.security = [{
